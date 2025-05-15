@@ -2,12 +2,8 @@ package org.example;
 
 import jakarta.persistence.*;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
 import java.util.function.Consumer;
 
 public class Main {
