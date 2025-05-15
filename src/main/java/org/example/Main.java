@@ -2,17 +2,38 @@ package org.example;
 
 import jakarta.persistence.*;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
+        transaction(Main::transactionBody);
+    }
+
+    public static void transaction(Consumer<EntityManager> method) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pekara");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
+        try {
+            method.accept(em);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        tx.commit();
+        em.close();
+        emf.close();
+    }
+
+    public static void transactionBody(EntityManager em) {
         Ingredient sir = addIngredient(em, "sir");
         Ingredient tijesto = addIngredient(em, "tijesto");
         Ingredient cokolada = addIngredient(em, "cokolada");
@@ -23,10 +44,6 @@ public class Main {
         addMeal(em, "Krafna", Arrays.asList(tijesto,cokolada));
 
         printMeals(em);
-
-        tx.commit();
-        em.close();
-        emf.close();
     }
 
     public static Meal addMeal(EntityManager em, String mealName, List<Ingredient> ingredients) {
