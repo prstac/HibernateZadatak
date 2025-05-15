@@ -3,6 +3,7 @@ package org.example;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,9 @@ public class Meal {
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    public Meal() {
+    public Meal(String name, List<Ingredient> ingredients) {
+        this.name = name;
+        this.addIngredients(ingredients);
     }
 
 
@@ -42,5 +45,13 @@ public class Meal {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.getIngredients().add(ingredient);
+    }
+
+    public void addIngredients(List<Ingredient> ingredients) {
+        ingredients.forEach(this::addIngredient);
     }
 }

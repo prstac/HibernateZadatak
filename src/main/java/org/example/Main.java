@@ -2,46 +2,35 @@ package org.example;
 
 import jakarta.persistence.*;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("pekara");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-
-
-        Meal burek = addMeal(em,"Burek");
-        Meal pizza = addMeal(em, "Pizza");
-        Meal krafna = addMeal(em, "Krafna");
 
         Ingredient sir = addIngredient(em, "sir");
         Ingredient tijesto = addIngredient(em, "tijesto");
         Ingredient cokolada = addIngredient(em, "cokolada");
         Ingredient salama = addIngredient(em, "salama");
 
-        burek.getIngredients().add(sir);
-        burek.getIngredients().add(tijesto);
-
-        pizza.getIngredients().add(sir);
-        pizza.getIngredients().add(tijesto);
-        pizza.getIngredients().add(salama);
-
-        krafna.getIngredients().add(tijesto);
-        krafna.getIngredients().add(cokolada);
+        addMeal(em,"Burek", Arrays.asList(sir, tijesto));
+        addMeal(em, "Pizza", Arrays.asList(sir,tijesto, salama));
+        addMeal(em, "Krafna", Arrays.asList(tijesto,cokolada));
 
         printMeals(em);
 
         tx.commit();
         em.close();
         emf.close();
-
     }
 
-    public static Meal addMeal(EntityManager em, String mealName) {
-        Meal meal = new Meal();
+    public static Meal addMeal(EntityManager em, String mealName, List<Ingredient> ingredients) {
+        Meal meal = new Meal(mealName, ingredients);
         meal.setName(mealName);
         em.persist(meal);
         return meal;
@@ -57,7 +46,6 @@ public class Main {
     public static List<Meal> getMeals(EntityManager em) {
         return  em.createQuery("select m from Meal m", Meal.class).getResultList();
     }
-
 
     public static void printMeals(EntityManager entityManager) {
         List<Meal> meals = getMeals(entityManager);
