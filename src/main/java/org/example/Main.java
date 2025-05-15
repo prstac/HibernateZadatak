@@ -34,7 +34,9 @@ public class Main {
 
         printMeals(em);
 
-
+        tx.commit();
+        em.close();
+        emf.close();
 
     }
 
