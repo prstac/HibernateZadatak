@@ -60,14 +60,10 @@ public class Main {
     }
 
     public static void printMeals(EntityManager entityManager) {
-        List<Meal> meals = getMeals(entityManager);
         System.out.println();
 
-        for (Meal meal : meals) {
-            System.out.println("Name: " + meal.getName());
-            printIngredients(meal.getIngredients());
-            System.out.println();
-        }
+        List<Meal> meals = getMeals(entityManager);
+        getMeals(entityManager).forEach(Meal::printMeal);
 
         printIfEmptyMeals(meals);
     }
@@ -75,12 +71,6 @@ public class Main {
     public static void printIfEmptyMeals(List<Meal> meals) {
         if (meals.isEmpty()) {
             System.out.println("No meals");
-        }
-    }
-
-    public static void printIngredients(Set<Ingredient> ingredients) {
-        for (Ingredient a : ingredients) {
-            System.out.println("Ingredient: " + a.getName());
         }
     }
 }

@@ -54,4 +54,16 @@ public class Meal {
     public void addIngredients(List<Ingredient> ingredients) {
         ingredients.forEach(this::addIngredient);
     }
+
+    public void printMeal() {
+        System.out.println("Name: " + getName());
+        printMealIngredients();
+        System.out.println();
+    }
+
+    public void printMealIngredients() {
+        for (Ingredient a : ingredients) {
+            System.out.println("Ingredient: " + a.getName());
+        }
+    }
 }
