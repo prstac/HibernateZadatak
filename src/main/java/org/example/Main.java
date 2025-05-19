@@ -8,11 +8,11 @@ import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
-        transaction(Main::transactionBody);
+        transaction(Main::transactionBody, "pekara");
     }
 
-    public static void transaction(Consumer<EntityManager> method) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("pekara");
+    public static void transaction(Consumer<EntityManager> method, String entityManagerName) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(entityManagerName);
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -37,7 +37,7 @@ public class Main {
 
         addMeal(em,"Burek", Arrays.asList(sir, tijesto));
         addMeal(em, "Pizza", Arrays.asList(sir,tijesto, salama));
-        addMeal(em, "Krafna", Arrays.asList(tijesto,cokolada));
+        addMeal(em, "Krafna", Arrays.asList(tijesto, cokolada));
 
         printMeals(em);
     }
