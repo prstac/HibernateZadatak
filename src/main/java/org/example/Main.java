@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class Main {
@@ -61,15 +62,25 @@ public class Main {
     public static void printMeals(EntityManager entityManager) {
         List<Meal> meals = getMeals(entityManager);
         System.out.println();
+
+        for (Meal meal : meals) {
+            System.out.println("Name: " + meal.getName());
+            printIngredients(meal.getIngredients());
+            System.out.println();
+        }
+
+        printIfEmptyMeals(meals);
+    }
+
+    public static void printIfEmptyMeals(List<Meal> meals) {
         if (meals.isEmpty()) {
             System.out.println("No meals");
         }
-        for (Meal b : meals) {
-            System.out.println("Name: " + b.getName());
-            for (Ingredient a : b.getIngredients()) {
-                System.out.println("Ingredient: " + a.getName());
-            }
-            System.out.println();
+    }
+
+    public static void printIngredients(Set<Ingredient> ingredients) {
+        for (Ingredient a : ingredients) {
+            System.out.println("Ingredient: " + a.getName());
         }
     }
 }
