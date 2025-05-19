@@ -44,14 +44,12 @@ public class Main {
 
     public static Meal addMeal(EntityManager em, String mealName, List<Ingredient> ingredients) {
         Meal meal = new Meal(mealName, ingredients);
-        meal.setName(mealName);
         em.persist(meal);
         return meal;
     }
 
     public static Ingredient addIngredient(EntityManager em, String ingredientName) {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName(ingredientName);
+        Ingredient ingredient = new Ingredient(ingredientName);
         em.persist(ingredient);
         return ingredient;
     }

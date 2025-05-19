@@ -14,7 +14,8 @@ public class Ingredient {
     @JoinColumn(name="meal_id")
     private Meal meal;
 
-    public Ingredient() {
+    public Ingredient(String name) {
+        this.name = name;
     }
 
     public long getId() {
